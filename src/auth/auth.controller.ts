@@ -2,6 +2,7 @@ import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtService } from '@nestjs/jwt';
+import { GetUser } from './get-user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -11,9 +12,9 @@ export class AuthController {
   
   @Get('test')
   @UseGuards(AuthGuard('jwt'))
-  testApi(@Req() req: Request) {
-    console.log(req.user);
-  }
+  testApi(@GetUser() user, req: Request) {
+    return user
+}
   @Post('login')
   testApiA(@Req() req: Request) {
     const payload = { username: req.body.username, userId: req.body.userId };
